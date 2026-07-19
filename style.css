@@ -348,7 +348,36 @@ transition:0.3s;
 nav ul li a:hover{
 color:#ffd700;
 }
+.hamburger{
+display:none;
+flex-direction:column;
+justify-content:space-between;
+width:28px;
+height:20px;
+cursor:pointer;
+z-index:1100;
+}
 
+.hamburger span{
+display:block;
+height:3px;
+width:100%;
+border-radius:3px;
+background:linear-gradient(to right,#fff8dc,#ffd700,#f59e0b);
+transition:0.35s ease;
+}
+
+.hamburger.active span:nth-child(1){
+transform:translateY(8.5px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2){
+opacity:0;
+}
+
+.hamburger.active span:nth-child(3){
+transform:translateY(-8.5px) rotate(-45deg);
+}
 /* =========================================
 HERO
 ========================================= */
@@ -682,21 +711,61 @@ body{
 background-attachment:scroll;
 }
 
-nav{
-padding:16px 5%;
-flex-wrap:wrap;
-gap:12px;
+.logo{
+font-size:26px;
 }
 
-.logo{
-font-size:28px;
+nav{
+padding:16px 5%;
+position:relative;
+}
+
+.hamburger{
+display:flex;
 }
 
 nav ul{
-gap:15px;
-font-size:14px;
+position:absolute;
+top:100%;
+left:0;
 width:100%;
-justify-content:center;
+flex-direction:column;
+align-items:center;
+gap:0;
+background:rgba(10,5,2,0.97);
+backdrop-filter:blur(16px);
+border-bottom:1px solid rgba(255,215,0,0.15);
+box-shadow:0 25px 40px rgba(0,0,0,0.5);
+
+max-height:0;
+overflow:hidden;
+opacity:0;
+transform:translateY(-15px);
+transition:max-height 0.4s ease, opacity 0.3s ease, transform 0.3s ease, padding 0.4s ease;
+padding:0 5%;
+}
+
+nav ul.show{
+max-height:400px;
+opacity:1;
+transform:translateY(0);
+padding:20px 5% 25px;
+}
+
+nav ul li{
+width:100%;
+text-align:center;
+}
+
+nav ul li a{
+display:block;
+padding:14px 0;
+font-size:16px;
+border-bottom:1px solid rgba(255,215,0,0.08);
+}
+
+nav ul li:last-child a{
+border-bottom:none;
 }
 
 .hero{
