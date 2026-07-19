@@ -707,15 +707,15 @@ margin-bottom:45px;
 /* ---- MOBILE (<=768px) ---- */
 @media(max-width:768px){
 
-/* body{
-background-attachment:scroll;
-        background-size: cover;
-        background-position: center top;
-        background-repeat: no-repeat;
-        background-attachment: scroll;
+   /* body{
+        background: url('./image/background\ for\ home.jpeg') center top / cover no-repeat !important;
+        background-size: cover !important;
+        background-position: center top !important;
+        background-repeat: no-repeat !important;
+        background-attachment: scroll !important;
         min-height: 100dvh;
+    } */
 
-} */
 
 .logo{
 font-size:26px;
