@@ -708,7 +708,8 @@ margin-bottom:45px;
 @media(max-width:768px){
 
    body{
-        background: url('./image/background-for-home.jpeg') center top / cover no-repeat !important;
+        background: url('./image/background-for-home.jpeg') 
+        center top / cover no-repeat !important;
         background-size: cover !important;
         background-position: center top !important;
         background-repeat: no-repeat !important;
