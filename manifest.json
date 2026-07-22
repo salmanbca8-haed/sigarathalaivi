@@ -1,0 +1,16 @@
+{
+  "name": "சிகரத்தலைவி Luxury Store",
+  "short_name": "சிகரத்தலைவி",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#120904",
+  "theme_color": "#b45309",
+  "description": "Dynamic retail storefront with admin management.",
+  "icons": [
+    {
+      "src": "app-icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
