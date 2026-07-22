@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>சிகரத்தலைவி Luxury Diamondfall Store</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="app-icon.svg" type="image/svg+xml">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#b45309">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;700;900&family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+<body>
+        <div class="ai-bg">
+
+        <div class="diamond d1"></div>
+        <div class="diamond d2"></div>
+        <div class="diamond d3"></div>
+        <div class="diamond d4"></div>
+        <div class="diamond d5"></div>
+        <div class="diamond d6"></div>
+        <div class="diamond d7"></div>
+        <div class="diamond d8"></div>
+        <div class="diamond d9"></div>
+        <div class="diamond d10"></div>
+
+        <div class="spark sp1"></div>
+        <div class="spark sp2"></div>
+        <div class="spark sp3"></div>
+        <div class="spark sp4"></div>
+        <div class="spark sp5"></div>
+        <div class="spark sp6"></div>
+
+        <div class="glow glow1"></div>
+        <div class="glow glow2"></div>
+        <div class="glow glow3"></div>
+
+    </div>
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <div class="logo">சிகரத்தலைவி</div>
+
+        <ul id="navLinks">
+            <li><a href="./index.html#home">Home</a></li>
+            <li><a href="./index.html#About">About</a></li>
+            <li><a href="./product.html#products">Products</a></li>
+            <li><a href="./product.html#cart">Cart</a></li>
+            <li><a href="./index.html#contact">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <button id="adminAccessBtn" class="link-btn">Admin</button>
+           <a href="./product.html#cart"><button id="viewCartBtn" class="cart-badge" type="button">Cart <span id="cartCount">0</span></button></a>
+        </div>
+
+        <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+    </nav>
+<section id="products">
+
+        <h2 class="section-title">Luxury Products</h2>
+
+        <div id="productGrid" class="products"></div>
+
+    </section>
+
+    <section id="cart" class="cart-section">
+      <h2 class="section-title">Your Cart</h2>
+      <div class="cart-wrapper">
+        <div id="cartItemsContainer" class="cart-items"></div>
+        <div class="cart-summary">
+          <div class="summary-card">
+            <h3>Order Summary</h3>
+            <p>Total items: <span id="cartTotalItems">0</span></p>
+            <p>Order total: <strong id="cartTotalAmount">₹0</strong></p>
+          </div>
+          <form id="orderForm" class="order-form">
+            <h3>Shipping Details</h3>
+            <label>Name<input id="orderName" type="text" placeholder="Full name" required></label>
+            <label>Phone<input id="orderPhone" type="tel" placeholder="Phone number" required></label>
+            <label>Address<textarea id="orderAddress" rows="4" placeholder="Delivery address" required></textarea></label>
+            <button type="button" id="sendWhatsappBtn" class="hero-btn">Send Order on WhatsApp</button>
+            <button type="button" id="sendEmailBtn" class="hero-btn">Send Order by Email</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+<section id="products">
+
+        <h2 class="section-title">Luxury Products</h2>
+
+        <div id="productGrid" class="products"></div>
+
+    </section>

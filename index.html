@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>சிகரத்தலைவி Luxury Diamondfall Store</title>
-        <link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="app-icon.svg" type="image/svg+xml">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#b45309">
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;700;900&family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
@@ -51,11 +53,17 @@
         <div class="logo">சிகரத்தலைவி</div>
 
         <ul id="navLinks">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#About">About</a></li>
-            <li><a href="#products">Products</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="./index.html#home">Home</a></li>
+            <li><a href="./index.html#About">About</a></li>
+            <li><a href="./product.html#products">Products</a></li>
+            <li><a href="./product.html#cart">Cart</a></li>
+            <li><a href="./index.html#contact">Contact</a></li>
         </ul>
+
+        <div class="nav-actions">
+            <button id="adminAccessBtn" class="link-btn">Admin</button>
+           <a href="./product.html#cart"><button id="viewCartBtn" class="cart-badge" type="button">Cart <span id="cartCount">0</span></button></a>
+        </div>
 
         <div class="hamburger" id="hamburger" onclick="toggleMenu()">
             <span></span>
@@ -151,192 +159,49 @@
 
     <!-- PRODUCTS -->
 
-    <section id="products">
+    
+    <section id="adminSection" class="admin-section hidden">
+      <div class="admin-card">
+        <div class="admin-panel">
+          <div class="admin-header">
+            <h2>Admin Portal</h2>
+            <p>Secure product management and content controls.</p>
+          </div>
 
-        <h2 class="section-title">Luxury Products</h2>
+          <div id="adminLoginArea" class="admin-login">
+            <form id="adminLoginForm">
+              <label>Admin Password
+                <input id="adminPassword" type="password" placeholder="Enter password" required>
+              </label>
+              <button type="submit" class="hero-btn">Sign In</button>
+            </form>
+          </div>
 
-        <div class="products">
-
-            <div class="card">
-
-                <img src="./image/WOOD PRESSED  GINGELLY OIL.jpeg">
-
-                <div class="card-content">
-                    <h3>WOOD PRESSED GINGELLY OIL</h3>
-                    <p class="price">₹0</p>
-                    <button class="buy-btn">Add To Cart</button>
-                </div>
-
-            </div>
-            <div class="card">
-
-                <img src="./image/./RAGI MIX POWDER.jpeg">
-
-                <div class="card-content">
-                    <h3>RAGI MIX POWDER</h3>
-                    <p class="price">₹0</p>
-                    <button class="buy-btn">Add To Cart</button>
-                </div>
-
-            </div> 
-            <div class="card">
-
-                <img src="./image/./PALM JAGGERY PEANUT BALLS.jpeg">
-
-                <div class="card-content">
-                    <h3>PALM JAGGERY PEANUT BALLS</h3>
-                    <p class="price">₹0</p>
-                    <button class="buy-btn">Add To Cart</button>
-                </div>
-
-            </div> 
-            <div class="card">
-
-                <img src="./image/./ELLU URUDAI.jpeg">
-
-                <div class="card-content">
-                    <h3>ELLU URUDAI</h3>
-                    <p class="price">₹0</p>
-                    <button class="buy-btn">Add To Cart</button>
-                </div>
-
-            </div> 
-            <div class="card">
-
-                <img src="./image/./KAMBU MURUKKU.jpeg">
-
-                <div class="card-content">
-                    <h3>KAMBU MURUKKU</h3>
-                    <p class="price">₹0</p>
-                    <button class="buy-btn">Add To Cart</button>
-                </div>
-
-            </div>             
-            <div class="card">
-
-                <img src="./image/./SIKAKAI POWDER.jpeg">
-
-                <div class="card-content">
-                    <h3>SIKAKAI POWDER</h3>
-                    <p class="price">₹0</p>
-                    <button class="buy-btn">Add To Cart</button>
-                </div>
-
-            </div>                                  
-
-            <div class="card">
-
-                <img src="./image/VARAGU SEEDAI.jpeg">
-
-                <div class="card-content">
-                    <h3>VARAGU SEEDAI</h3>
-                    <p class="price">₹0</p>
-                    <button class="buy-btn">Add To Cart</button>
-                </div>
-
+          <div id="adminDashboard" class="hidden">
+            <div class="admin-toolbar">
+              <button id="adminLogoutBtn" class="secondary-btn">Logout</button>
             </div>
 
-            <div class="card">
+            <input type="text" id="adminSearch" class="admin-search" placeholder="Search product by name...">
+            <div id="adminProducts" class="admin-products"></div>
 
-                <img src="./image/THINAI LADDU.jpeg">
+            <form id="addProductForm" class="admin-form">
+              <h3>New Product</h3>
+              <div class="admin-form-grid">
+                <label>Name<input id="newName" type="text" placeholder="Product name" required></label>
+                <label>Price<input id="newPrice" type="number" min="1" placeholder="Price" required></label>
+                <label>Stock<input id="newStock" type="number" min="0" placeholder="Stock" required></label>
+                <label class="file-input-label">Upload Image<input id="newImage" type="file" accept="image/*"></label>
+                <div class="upload-preview" id="newImagePreviewContainer"><img id="newImagePreview" alt="Image preview"></div>
+                <label>Description<textarea id="newDescription" rows="3" placeholder="Short product description"></textarea></label>
+              </div>
+              <button type="submit" class="hero-btn">Add Product</button>
+            </form>
+          </div>
 
-                <div class="card-content">
-                    <h3>THINAI LADDU</h3>
-                    <p class="price">₹0</p>
-                    <button class="buy-btn">Add To Cart</button>
-                </div>
-
-            </div>
-                        <div class="card">
-
-                <img src="./image/./NALANGU MAAVU.jpeg">
-
-                <div class="card-content">
-                    <h3>NALANGU MAAVU</h3>
-                    <p class="price">₹0</p>
-                    <button class="buy-btn">Add To Cart</button>
-                </div>
-
-            </div>
-                        <div class="card">
-
-                <img src="./image/./KUTHIRAIVALI.jpeg">
-
-                <div class="card-content">
-                    <h3>KUTHIRAIVALI</h3>
-                    <p class="price">₹0</p>
-                    <button class="buy-btn">Add To Cart</button>
-                </div>
-
-            </div>
-            <div class="card">
-
-                <img src="./image/./KARUPPU KAVUNI RICE.jpeg">
-
-                <div class="card-content">
-                    <h3>KARUPPU KAVUNI RICE</h3>
-                    <p class="price">₹0</p>
-                    <button class="buy-btn">Add To Cart</button>
-                </div>
-
-            </div>
-                        <div class="card">
-
-                <img src="./image/./CAMPHOR KARPOORAM.jpeg">
-
-                <div class="card-content">
-                    <h3>CAMPHOR KARPOORAM</h3>
-                    <p class="price">₹0</p>
-                    <button class="buy-btn">Add To Cart</button>
-                </div>
-
-            </div> 
-                        <div class="card">
-
-                <img src="./image/./DISH WASH GELL.jpeg">
-
-                <div class="card-content">
-                    <h3>DISH WASH GELL</h3>
-                    <p class="price">₹0</p>
-                    <button class="buy-btn">Add To Cart</button>
-                </div>
-
-            </div>                        
-                        <div class="card">
-
-                <img src="./image/./FLOOR CLEANER.jpeg">
-
-                <div class="card-content">
-                    <h3>FLOOR CLEANER</h3>
-                    <p class="price">₹0</p>
-                    <button class="buy-btn">Add To Cart</button>
-                </div>
-
-            </div>
-                        <div class="card">
-
-                <img src="./image/./TOILET CLEANER.jpeg">
-
-                <div class="card-content">
-                    <h3>TOILET CLEANER</h3>
-                    <p class="price">₹0</p>
-                    <button class="buy-btn">Add To Cart</button>
-                </div>
-
-            </div>
-                        <div class="card">
-
-                <img src="./image/./ALL PURPOSE CLEANER.jpeg">
-
-                <div class="card-content">
-                    <h3>ALL PURPOSE CLEANER</h3>
-                    <p class="price">₹0</p>
-                    <button class="buy-btn">Add To Cart</button>
-                </div>
-
-            </div>                        
+          <div id="messageBox" class="message-box"></div>
         </div>
-
+      </div>
     </section>
 
     <!-- CONTACT -->
@@ -383,6 +248,7 @@ border:1px solid rgba(255,215,0,0.08);
 
     </footer>
 
+    <script src="script.js"></script>
 </body>
 
 </html>
