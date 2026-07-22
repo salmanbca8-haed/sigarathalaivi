@@ -1050,131 +1050,163 @@ margin-bottom:45px;
 /* ---- MOBILE (<=768px) ---- */
 @media(max-width:768px){
 
-   /* body{
-        background: url('./image/background-for-home.jpeg') center top / cover no-repeat !important;
-        background-size: cover !important;
-        background-position: center top !important;
-        background-repeat: no-repeat !important;
-        background-attachment: scroll !important;
-        min-height: 100dvh;
-    } */
-
-
 .logo{
-font-size:26px;
+  font-size:26px;
 }
 
 nav{
-padding:16px 5%;
-position:relative;
+  padding:16px 5%;
+  position:relative;
 }
 
 .hamburger{
-display:flex;
+  display:flex;
 }
 
 nav ul{
-position:absolute;
-top:100%;
-left:0;
-width:100%;
-flex-direction:column;
-align-items:center;
-gap:0;
-background:rgba(10,5,2,0.97);
-backdrop-filter:blur(16px);
-border-bottom:1px solid rgba(255,215,0,0.15);
-box-shadow:0 25px 40px rgba(0,0,0,0.5);
-
-max-height:0;
-overflow:hidden;
-opacity:0;
-transform:translateY(-15px);
-transition:max-height 0.4s ease, opacity 0.3s ease, transform 0.3s ease, padding 0.4s ease;
-padding:0 5%;
+  position:absolute;
+  top:100%;
+  left:0;
+  width:100%;
+  flex-direction:column;
+  align-items:center;
+  gap:0;
+  background:rgba(10,5,2,0.97);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,215,0,0.15);
+  box-shadow:0 25px 40px rgba(0,0,0,0.5);
+  max-height:0;
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(-15px);
+  transition:max-height 0.4s ease, opacity 0.3s ease, transform 0.3s ease, padding 0.4s ease;
+  padding:0 5%;
 }
 
 nav ul.show{
-max-height:400px;
-opacity:1;
-transform:translateY(0);
-padding:20px 5% 25px;
+  max-height:400px;
+  opacity:1;
+  transform:translateY(0);
+  padding:20px 5% 25px;
 }
 
 nav ul li{
-width:100%;
-text-align:center;
+  width:100%;
+  text-align:center;
 }
 
 nav ul li a{
-display:block;
-padding:14px 0;
-font-size:16px;
-border-bottom:1px solid rgba(255,215,0,0.08);
+  display:block;
+  padding:14px 0;
+  font-size:16px;
+  border-bottom:1px solid rgba(255,215,0,0.08);
 }
 
 nav ul li:last-child a{
-border-bottom:none;
+  border-bottom:none;
 }
 
 .hero{
-padding:130px 6% 50px;
-min-height:auto;
+  padding:120px 5% 40px;
+  min-height:auto;
 }
 
 .hero h1{
-font-size:44px;
+  font-size:44px;
 }
 
 .hero p{
-font-size:15px;
-line-height:1.7;
+  font-size:15px;
+  line-height:1.8;
 }
 
 .hero-logo{
-width:200px;
+  width:200px;
 }
 
 .hero-btn{
-padding:15px 40px;
-font-size:15px;
-margin-top:28px;
+  padding:15px 36px;
+  font-size:15px;
+  margin-top:28px;
 }
 
 .diamond{
-width:18px;
-height:18px;
+  width:18px;
+  height:18px;
 }
 
 section{
-padding:60px 6%;
+  padding:50px 5%;
 }
 
 .section-title{
-font-size:32px;
-margin-bottom:35px;
+  font-size:32px;
+  margin-bottom:32px;
 }
 
 .products{
-grid-template-columns:1fr;
-gap:24px;
+  grid-template-columns:1fr;
+  gap:24px;
 }
 
 .card img{
-height:320px;
+  height:320px;
 }
 
 .card-content h3{
-font-size:21px;
+  font-size:21px;
 }
 
 .price{
-font-size:20px;
+  font-size:20px;
+}
+
+.cart-wrapper{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:24px;
+}
+
+.cart-summary{
+  position:static;
+}
+
+.cart-item{
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+
+.cart-item img{
+  width:100%;
+  max-width:260px;
+  height:auto;
+}
+
+.quantity-control{
+  justify-content:center;
+}
+
+.order-form{
+  gap:18px;
+}
+
+.admin-row{
+  grid-template-columns:1fr;
+}
+
+.admin-row-main,
+.admin-fields{
+  width:100%;
+}
+
+.admin-fields{
+  gap:16px;
 }
 
 footer{
-padding:25px 6%;
-font-size:14px;
+  padding:25px 5%;
+  font-size:14px;
 }
 
 }
@@ -1182,49 +1214,63 @@ font-size:14px;
 /* ---- SMALL MOBILE (<=480px) ---- */
 @media(max-width:480px){
 
+.hero{
+  padding:110px 5% 35px;
+}
+
 .hero h1{
-font-size:34px;
+  font-size:34px;
 }
 
 .hero p{
-font-size:14px;
+  font-size:14px;
 }
 
 .hero-logo{
-width:160px;
+  width:160px;
 }
 
 .hero-btn{
-padding:13px 30px;
-font-size:14px;
+  padding:13px 28px;
+  font-size:14px;
 }
 
 .logo{
-font-size:22px;
+  font-size:22px;
 }
 
 nav ul{
-gap:10px;
-font-size:12px;
+  gap:10px;
+  font-size:12px;
 }
 
 .section-title{
-font-size:26px;
+  font-size:26px;
 }
 
 .card img{
-height:260px;
+  height:260px;
 }
 
 .card-content{
-padding:20px;
+  padding:20px;
+}
+
+.cart-item{
+  padding:18px;
+}
+
+.cart-item img{
+  max-width:220px;
+}
+
+.order-form input,
+.order-form textarea{
+  font-size:14px;
 }
 
 .powered-by img{
-width:90px;
-}
-body{
-    width: 90px;
+  width:90px;
 }
 
 }

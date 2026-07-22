@@ -56,6 +56,13 @@ const elements = {
 let newProductImageData = '';
 let adminSearchQuery = '';
 
+function toggleMenu() {
+  const navLinks = document.getElementById('navLinks');
+  const hamburger = document.getElementById('hamburger');
+  if (navLinks) navLinks.classList.toggle('show');
+  if (hamburger) hamburger.classList.toggle('active');
+}
+
 function loadProducts() {
   const data = localStorage.getItem(STORAGE_KEY);
   products = data ? JSON.parse(data) : defaultProducts.slice();
@@ -479,33 +486,60 @@ function init() {
   renderProducts();
   renderCartItems();
   initializeNavigation();
-  if (getAdminState()) {
+
+  const hasAdminUI = elements.adminSection && elements.adminLoginForm && elements.adminLogoutBtn && elements.addProductForm;
+  if (hasAdminUI && getAdminState()) {
     elements.adminSection.classList.remove('hidden');
     showAdminDashboard();
   }
-  elements.adminAccessBtn.addEventListener('click', handleAdminAccess);
-  elements.adminLoginForm.addEventListener('submit', handleAdminLogin);
-  elements.adminLogoutBtn.addEventListener('click', handleAdminLogout);
-  elements.addProductForm.addEventListener('submit', handleAddProduct);
-  elements.viewCartBtn.addEventListener('click', () => {
-    document.getElementById('cart').scrollIntoView({ behavior: 'smooth' });
-  });
-  elements.newImageInput.addEventListener('change', event => {
-    const file = event.target.files && event.target.files[0];
-    if (!file) {
-      elements.newImagePreview.src = '';
-      elements.newImagePreview.parentElement.style.display = 'none';
-      return;
+
+  if (elements.adminAccessBtn) {
+    if (hasAdminUI) {
+      elements.adminAccessBtn.addEventListener('click', handleAdminAccess);
+      elements.adminLoginForm.addEventListener('submit', handleAdminLogin);
+      elements.adminLogoutBtn.addEventListener('click', handleAdminLogout);
+      elements.addProductForm.addEventListener('submit', handleAddProduct);
+      if (elements.adminSearchInput) {
+        elements.adminSearchInput.addEventListener('input', handleSearchInput);
+      }
+      if (elements.newImageInput) {
+        elements.newImageInput.addEventListener('change', event => {
+          const file = event.target.files && event.target.files[0];
+          if (!file) {
+            elements.newImagePreview.src = '';
+            elements.newImagePreview.parentElement.style.display = 'none';
+            return;
+          }
+          readImageFile(file, base64 => {
+            newProductImageData = base64;
+            elements.newImagePreview.src = base64;
+            elements.newImagePreview.parentElement.style.display = 'block';
+          });
+        });
+      }
+    } else {
+      elements.adminAccessBtn.addEventListener('click', () => {
+        window.location.href = 'index.html#adminSection';
+      });
     }
-    readImageFile(file, base64 => {
-      newProductImageData = base64;
-      elements.newImagePreview.src = base64;
-      elements.newImagePreview.parentElement.style.display = 'block';
-    });
-  });
-  if (elements.adminSearchInput) {
-    elements.adminSearchInput.addEventListener('input', handleSearchInput);
   }
+
+  const hamburgerBtn = document.getElementById('hamburger');
+  if (hamburgerBtn) {
+    hamburgerBtn.addEventListener('click', toggleMenu);
+  }
+
+  if (elements.viewCartBtn) {
+    elements.viewCartBtn.addEventListener('click', () => {
+      const cartSection = document.getElementById('cart');
+      if (cartSection) {
+        cartSection.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.location.href = 'product.html#cart';
+      }
+    });
+  }
+
   if (elements.sendWhatsappBtn) {
     elements.sendWhatsappBtn.addEventListener('click', handleSendWhatsapp);
   }
