@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#120904" />
+  <title>சிகரத்தலைவி — Luxury Diamondfall Store</title>
+
+  <!-- Google Fonts for Luxury Diamondfall Store -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================
+       SHOP CUSTOMIZATION — update these variables first
+       ========================================================= */
+    :root {
+      --shop-name: "SIGARATHALAIVI";
+      --tagline: "A store with purpose. A movement for change.";
+      --brand: #c9a227;
+      --brand-dark: #3d1e6d;
+      --ink: #24231f;
+      --muted: #77756e;
+      --paper: #f7f5f0;
+      --surface: #ffffff;
+      --dark: #171713;
+      --hero-height: 450vh; /* Set to 400vh–500vh to tune scrub distance */
+      --content-width: 1180px;
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .container { width: min(var(--content-width), calc(100% - 40px)); margin-inline: auto; }
+
+    /* Sticky scroll-scrub stage */
+    .hero-track { height: var(--hero-height); position: relative; background: var(--dark); }
+    .hero-sticky {
+      position: sticky; top: 0; height: 100vh; height: 100svh;
+      overflow: hidden; isolation: isolate; background: #171713;
+    }
+    .hero-canvas {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      z-index: -2;
+      opacity: 0; transition: opacity .5s ease;
+    }
+    .hero-sticky.is-ready .hero-canvas { opacity: 1; }
+    .hero-shade {
+      position: absolute; inset: 0; z-index: -1; pointer-events: none;
+      background: linear-gradient(90deg, rgba(13,13,11,.76), rgba(13,13,11,.25) 58%, rgba(13,13,11,.08)),
+                  linear-gradient(0deg, rgba(13,13,11,.4), transparent 45%);
+    }
+    .hero-copy {
+      position: absolute; left: max(7vw, calc((100vw - var(--content-width)) / 2));
+      top: 50%; transform: translateY(-50%); width: min(650px, 82vw);
+      color: white; pointer-events: none;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px; margin: 0 0 18px;
+      color: var(--brand); font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 700;
+    }
+    .eyebrow::before { content: ""; width: 28px; height: 1px; background: currentColor; }
+    .hero-copy h1 {
+      margin: 0; max-width: 760px; font-size: clamp(3rem, 8vw, 7.4rem);
+      line-height: .96; letter-spacing: -.065em; font-weight: 650;
+    }
+    .hero-copy h1 span { color: var(--brand); }
+    .hero-copy p { max-width: 440px; margin: 25px 0 0; color: rgba(255,255,255,.82); font-size: clamp(1rem, 1.6vw, 1.18rem); }
+    .hero-topline {
+      position: absolute; top: 28px; left: 0; right: 0; display: flex;
+      justify-content: space-between; align-items: center; color: #fff; z-index: 2;
+    }
+    .brand-mark { font-size: .8rem; font-weight: 800; letter-spacing: .16em; }
+    .top-note { color: rgba(255,255,255,.78); font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; }
+    .scroll-cue {
+      position: absolute; bottom: 54px; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 12px; color: #fff;
+      font-size: .72rem; letter-spacing: .16em; text-transform: uppercase;
+      transition: opacity .35s ease, visibility .35s ease; white-space: nowrap;
+    }
+    .scroll-cue.is-hidden { opacity: 0; visibility: hidden; }
+    .scroll-cue .arrow { animation: nudge 1.6s ease-in-out infinite; font-size: 1.1rem; }
+    @keyframes nudge { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+    .progress-track { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255,255,255,.22); z-index: 5; }
+    .progress-fill { width: 100%; height: 100%; background: var(--brand); transform: scaleX(0); transform-origin: left; }
+    .loader {
+      position: absolute; inset: 0; display: grid; place-items: center; z-index: 10;
+      color: #fff; background: var(--dark); transition: opacity .4s ease, visibility .4s ease;
+    }
+    .loader-inner { display: grid; justify-items: center; gap: 14px; font-size: .75rem; letter-spacing: .16em; text-transform: uppercase; }
+    .spinner { width: 28px; height: 28px; border: 1px solid rgba(255,255,255,.25); border-top-color: var(--brand); border-radius: 50%; animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loader.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .frame-error {
+      display: none; position: absolute; inset: auto 20px 80px; z-index: 3; text-align: center;
+      color: white; font-size: .85rem; background: rgba(0,0,0,.65); padding: 12px 16px; border-radius: 10px;
+    }
+    .hero-sticky.has-error .frame-error { display: block; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+
+  <!-- Luxury Diamondfall Store Scoped Styles -->
+  <link rel="stylesheet" href="site.css" />
+</head>
+<body>
+
+  <!-- =========================================================
+       FIXED NAVBAR (Remains fixed across entire experience)
+       ========================================================= -->
+  <nav class="sg-nav" id="sgNav">
+    <div class="sg-nav-container">
+      <a href="#heroTrack" class="sg-logo" aria-label="Sigarathalaivi Home">சிகரத்தலைவி</a>
+
+      <ul class="sg-nav-links" id="sgNavLinks">
+        <li><a href="#heroTrack">Home</a></li>
+        <li><a href="#sg-about">About</a></li>
+        <li><a href="#sg-products">Products</a></li>
+        <li><a href="#sg-contact">Contact</a></li>
+      </ul>
+
+      <div class="sg-nav-actions">
+        <button id="sgCartBtn" class="sg-cart-badge" type="button" aria-label="View shopping cart">
+          Cart <span id="sgCartCount">0</span>
+        </button>
+      </div>
+
+      <button class="sg-hamburger" id="sgHamburger" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- =========================================================
+       FRAME HERO ANIMATION (Section 1: Untouched scroll scrub)
+       ========================================================= -->
+  <section class="hero-track" id="heroTrack" aria-label="Shop frame tour">
+    <div class="hero-sticky" id="heroSticky">
+      <canvas class="hero-canvas" id="shopFrames" role="img" aria-label="Scroll-controlled tour of the shop"></canvas>
+      <div class="hero-shade"></div>
+      <div class="hero-topline container">
+        <a class="brand-mark" href="#heroTrack" aria-label="Sigarathalaivi home">SIGARATHALAIVI</a>
+        <span class="top-note">Premium Organic Snacks</span>
+      </div>
+      <div class="hero-copy">
+        <p class="eyebrow">Welcome in</p>
+        <h1>Snack <span>naturally.</span></h1>
+        <p>Handpicked organic snacks, made with purpose, sold with a mission — empowering women, enriching society.</p>
+      </div>
+      <div class="scroll-cue" id="scrollCue"><span class="arrow">↓</span> Scroll to explore</div>
+      <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="loader" id="frameLoader" role="status" aria-live="polite">
+        <div class="loader-inner"><span class="spinner"></span><span>Preparing your shop tour</span></div>
+      </div>
+      <div class="frame-error" id="frameError">The shop tour frames could not be loaded. Check the <strong>shop-tour-frames</strong> folder.</div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       MAIN SITE: SIGARATHALAIVI LUXURY STORE
+       Lands immediately after the scroll animation
+       ========================================================= -->
+  <main id="site">
+
+    <!-- ISOLATED LUXURY BACKGROUND (Active only when #site is in view) -->
+    <div class="sg-ai-bg" id="sgAiBg" aria-hidden="true">
+      <!-- 10 Luxury Falling Diamonds -->
+      <div class="sg-diamond sg-d1"></div>
+      <div class="sg-diamond sg-d2"></div>
+      <div class="sg-diamond sg-d3"></div>
+      <div class="sg-diamond sg-d4"></div>
+      <div class="sg-diamond sg-d5"></div>
+      <div class="sg-diamond sg-d6"></div>
+      <div class="sg-diamond sg-d7"></div>
+      <div class="sg-diamond sg-d8"></div>
+      <div class="sg-diamond sg-d9"></div>
+      <div class="sg-diamond sg-d10"></div>
+
+      <!-- 6 Twinkling Sparkles -->
+      <div class="sg-spark sg-sp1"></div>
+      <div class="sg-spark sg-sp2"></div>
+      <div class="sg-spark sg-sp3"></div>
+      <div class="sg-spark sg-sp4"></div>
+      <div class="sg-spark sg-sp5"></div>
+      <div class="sg-spark sg-sp6"></div>
+
+      <!-- 3 Ambient Glow Lights -->
+      <div class="sg-glow sg-glow1"></div>
+      <div class="sg-glow sg-glow2"></div>
+      <div class="sg-glow sg-glow3"></div>
+    </div>
+
+    <!-- 1. HERO / INTRO -->
+    <section class="sg-hero" id="sg-home">
+      <div class="sg-hero-content">
+        <img src="./image/logo.png" alt="சிகரத்தலைவி Logo" class="sg-hero-logo" onerror="this.src='./image/image.png'" loading="eager" />
+        <h2 class="sg-hero-title">சிகரத்தலைவி <span class="sg-gold-text">Store</span></h2>
+        <p class="sg-hero-tagline">Ultra luxury brown and gold diamondfall animation website</p>
+        <a href="#sg-products" class="sg-hero-btn">Explore Now</a>
+
+        <div class="sg-powered-by">
+          <span>Initiative By</span>
+          <img src="./image/fu-glide-logo.jpeg" alt="FU-GLIDE Logo" class="sg-fug-logo" onerror="this.src='./image/fug.jpeg'" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. ABOUT -->
+    <section class="sg-about" id="sg-about">
+      <div class="sg-container">
+        <h2 class="sg-section-title">சிகரத்தலைவி</h2>
+        <div class="sg-about-card">
+          <p class="sg-about-text">
+            <strong>Sigarathalaivi</strong> is a women entrepreneurship and retail empowerment initiative by FU-GLIDE Innovation Intelligence Network, building confident, skilled and financially independent women entrepreneurs across Tamil Nadu through training, retail opportunities and leadership development.
+          </p>
+
+          <p class="sg-divisions-title">Our Three-Division Model lets every woman grow at her own level:</p>
+          <ul class="sg-divisions-list">
+            <li><strong>Graduate Leadership Division</strong> — trains business leaders and franchise partners.</li>
+            <li><strong>Retail Operations Division</strong> — billing, inventory and store management skills.</li>
+            <li><strong>Community Division</strong> — financial literacy and self-employment for grassroots women.</li>
+          </ul>
+
+          <div class="sg-vm-grid">
+            <div class="sg-vm-box">
+              <h4>Vision</h4>
+              <p>To build one of India's most trusted women entrepreneurship networks.</p>
+            </div>
+            <div class="sg-vm-box">
+              <h4>Mission</h4>
+              <p>To turn aspiring women into successful, financially independent entrepreneurs through training, mentorship and digital empowerment.</p>
+            </div>
+          </div>
+
+          <div class="sg-motto-banner">
+            Motto: "One Uniform • One Identity • One Movement."
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. PRODUCTS -->
+    <section class="sg-products" id="sg-products">
+      <div class="sg-container">
+        <h2 class="sg-section-title">Luxury Products</h2>
+        <div class="sg-product-grid">
+
+          <!-- 1. WOOD PRESSED GINGELLY OIL -->
+          <article class="sg-card">
+            <div class="sg-card-img-wrap">
+              <img src="./image/WOOD%20PRESSED%20GINGELLY%20OIL.jpeg" alt="WOOD PRESSED GINGELLY OIL" loading="lazy" onerror="this.src='./image/WOOD%20PRESSED%20%20GINGELLY%20OIL.jpeg'" />
+            </div>
+            <div class="sg-card-content">
+              <h3>WOOD PRESSED GINGELLY OIL</h3>
+              <p class="sg-price">₹349</p>
+              <button class="sg-buy-btn" data-name="WOOD PRESSED GINGELLY OIL" data-price="349" type="button">Add To Cart</button>
+            </div>
+          </article>
+
+          <!-- 2. RAGI MIX POWDER -->
+          <article class="sg-card">
+            <div class="sg-card-img-wrap">
+              <img src="./image/RAGI%20MIX%20POWDER.jpeg" alt="RAGI MIX POWDER" loading="lazy" onerror="this.src='./image/image.png'" />
+            </div>
+            <div class="sg-card-content">
+              <h3>RAGI MIX POWDER</h3>
+              <p class="sg-price">₹220</p>
+              <button class="sg-buy-btn" data-name="RAGI MIX POWDER" data-price="220" type="button">Add To Cart</button>
+            </div>
+          </article>
+
+          <!-- 3. PALM JAGGERY PEANUT BALLS -->
+          <article class="sg-card">
+            <div class="sg-card-img-wrap">
+              <img src="./image/PALM%20JAGGERY%20PEANUT%20BALLS.jpeg" alt="PALM JAGGERY PEANUT BALLS" loading="lazy" onerror="this.src='./image/PALM%20JAGGERY.jpeg'" />
+            </div>
+            <div class="sg-card-content">
+              <h3>PALM JAGGERY PEANUT BALLS</h3>
+              <p class="sg-price">₹140</p>
+              <button class="sg-buy-btn" data-name="PALM JAGGERY PEANUT BALLS" data-price="140" type="button">Add To Cart</button>
+            </div>
+          </article>
+
+          <!-- 4. ELLU URUDAI -->
+          <article class="sg-card">
+            <div class="sg-card-img-wrap">
+              <img src="./image/ELLU%20URUDAI.jpeg" alt="ELLU URUDAI" loading="lazy" onerror="this.src='./image/image.png'" />
+            </div>
+            <div class="sg-card-content">
+              <h3>ELLU URUDAI</h3>
+              <p class="sg-price">₹175</p>
+              <button class="sg-buy-btn" data-name="ELLU URUDAI" data-price="175" type="button">Add To Cart</button>
+            </div>
+          </article>
+
+          <!-- 5. KAMBU MURUKKU -->
+          <article class="sg-card">
+            <div class="sg-card-img-wrap">
+              <img src="./image/KAMBU%20MURUKKU.jpeg" alt="KAMBU MURUKKU" loading="lazy" onerror="this.src='./image/image.png'" />
+            </div>
+            <div class="sg-card-content">
+              <h3>KAMBU MURUKKU</h3>
+              <p class="sg-price">₹180</p>
+              <button class="sg-buy-btn" data-name="KAMBU MURUKKU" data-price="180" type="button">Add To Cart</button>
+            </div>
+          </article>
+
+          <!-- 6. SIKAKAI POWDER -->
+          <article class="sg-card">
+            <div class="sg-card-img-wrap">
+              <img src="./image/SIKAKAI%20POWDER.jpeg" alt="SIKAKAI POWDER" loading="lazy" onerror="this.src='./image/image.png'" />
+            </div>
+            <div class="sg-card-content">
+              <h3>SIKAKAI POWDER</h3>
+              <p class="sg-price">₹220</p>
+              <button class="sg-buy-btn" data-name="SIKAKAI POWDER" data-price="220" type="button">Add To Cart</button>
+            </div>
+          </article>
+
+          <!-- 7. VARAGU SEEDAI -->
+          <article class="sg-card">
+            <div class="sg-card-img-wrap">
+              <img src="./image/VARAGU%20SEEDAI.jpeg" alt="VARAGU SEEDAI" loading="lazy" onerror="this.src='./image/image.png'" />
+            </div>
+            <div class="sg-card-content">
+              <h3>VARAGU SEEDAI</h3>
+              <p class="sg-price">₹160</p>
+              <button class="sg-buy-btn" data-name="VARAGU SEEDAI" data-price="160" type="button">Add To Cart</button>
+            </div>
+          </article>
+
+          <!-- 8. THINAI LADDU -->
+          <article class="sg-card">
+            <div class="sg-card-img-wrap">
+              <img src="./image/THINAI%20LADDU.jpeg" alt="THINAI LADDU" loading="lazy" onerror="this.src='./image/image.png'" />
+            </div>
+            <div class="sg-card-content">
+              <h3>THINAI LADDU</h3>
+              <p class="sg-price">₹190</p>
+              <button class="sg-buy-btn" data-name="THINAI LADDU" data-price="190" type="button">Add To Cart</button>
+            </div>
+          </article>
+
+          <!-- 9. NALANGU MAAVU -->
+          <article class="sg-card">
+            <div class="sg-card-img-wrap">
+              <img src="./image/NALANGU%20MAAVU.jpeg" alt="NALANGU MAAVU" loading="lazy" onerror="this.src='./image/image.png'" />
+            </div>
+            <div class="sg-card-content">
+              <h3>NALANGU MAAVU</h3>
+              <p class="sg-price">₹210</p>
+              <button class="sg-buy-btn" data-name="NALANGU MAAVU" data-price="210" type="button">Add To Cart</button>
+            </div>
+          </article>
+
+          <!-- 10. KUTHIRAIVALI -->
+          <article class="sg-card">
+            <div class="sg-card-img-wrap">
+              <img src="./image/KUTHIRAIVALI.jpeg" alt="KUTHIRAIVALI" loading="lazy" onerror="this.src='./image/image.png'" />
+            </div>
+            <div class="sg-card-content">
+              <h3>KUTHIRAIVALI</h3>
+              <p class="sg-price">₹150</p>
+              <button class="sg-buy-btn" data-name="KUTHIRAIVALI" data-price="150" type="button">Add To Cart</button>
+            </div>
+          </article>
+
+          <!-- 11. KARUPPU KAVUNI RICE -->
+          <article class="sg-card">
+            <div class="sg-card-img-wrap">
+              <img src="./image/KARUPPU%20KAVUNI%20RICE.jpeg" alt="KARUPPU KAVUNI RICE" loading="lazy" onerror="this.src='./image/image.png'" />
+            </div>
+            <div class="sg-card-content">
+              <h3>KARUPPU KAVUNI RICE</h3>
+              <p class="sg-price">₹290</p>
+              <button class="sg-buy-btn" data-name="KARUPPU KAVUNI RICE" data-price="290" type="button">Add To Cart</button>
+            </div>
+          </article>
+
+          <!-- 12. CAMPHOR KARPOORAM -->
+          <article class="sg-card">
+            <div class="sg-card-img-wrap">
+              <img src="./image/CAMPHOR%20KARPOORAM.jpeg" alt="CAMPHOR KARPOORAM" loading="lazy" onerror="this.src='./image/image.png'" />
+            </div>
+            <div class="sg-card-content">
+              <h3>CAMPHOR KARPOORAM</h3>
+              <p class="sg-price">₹95</p>
+              <button class="sg-buy-btn" data-name="CAMPHOR KARPOORAM" data-price="95" type="button">Add To Cart</button>
+            </div>
+          </article>
+
+          <!-- 13. DISH WASH GELL -->
+          <article class="sg-card">
+            <div class="sg-card-img-wrap">
+              <img src="./image/DISH%20WASH%20GELL.jpeg" alt="DISH WASH GELL" loading="lazy" onerror="this.src='./image/image.png'" />
+            </div>
+            <div class="sg-card-content">
+              <h3>DISH WASH GELL</h3>
+              <p class="sg-price">₹125</p>
+              <button class="sg-buy-btn" data-name="DISH WASH GELL" data-price="125" type="button">Add To Cart</button>
+            </div>
+          </article>
+
+          <!-- 14. FLOOR CLEANER -->
+          <article class="sg-card">
+            <div class="sg-card-img-wrap">
+              <img src="./image/FLOOR%20CLEANER.jpeg" alt="FLOOR CLEANER" loading="lazy" onerror="this.src='./image/image.png'" />
+            </div>
+            <div class="sg-card-content">
+              <h3>FLOOR CLEANER</h3>
+              <p class="sg-price">₹160</p>
+              <button class="sg-buy-btn" data-name="FLOOR CLEANER" data-price="160" type="button">Add To Cart</button>
+            </div>
+          </article>
+
+          <!-- 15. TOILET CLEANER -->
+          <article class="sg-card">
+            <div class="sg-card-img-wrap">
+              <img src="./image/TOILET%20CLEANER.jpeg" alt="TOILET CLEANER" loading="lazy" onerror="this.src='./image/image.png'" />
+            </div>
+            <div class="sg-card-content">
+              <h3>TOILET CLEANER</h3>
+              <p class="sg-price">₹135</p>
+              <button class="sg-buy-btn" data-name="TOILET CLEANER" data-price="135" type="button">Add To Cart</button>
+            </div>
+          </article>
+
+          <!-- 16. ALL PURPOSE CLEANER -->
+          <article class="sg-card">
+            <div class="sg-card-img-wrap">
+              <img src="./image/ALL%20PURPOSE%20CLEANER.jpeg" alt="ALL PURPOSE CLEANER" loading="lazy" onerror="this.src='./image/image.png'" />
+            </div>
+            <div class="sg-card-content">
+              <h3>ALL PURPOSE CLEANER</h3>
+              <p class="sg-price">₹145</p>
+              <button class="sg-buy-btn" data-name="ALL PURPOSE CLEANER" data-price="145" type="button">Add To Cart</button>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. CONTACT -->
+    <section class="sg-contact" id="sg-contact">
+      <div class="sg-container">
+        <h2 class="sg-section-title">Contact Us</h2>
+        <div class="sg-contact-card">
+          <h3 class="sg-contact-sub">சிகரத்தலைவி Support</h3>
+          <p class="sg-contact-info">
+            📧 <a href="mailto:support@sigarathalaivi.com">support@sigarathalaivi.com</a>
+            <br><br>
+            📞 <a href="tel:+919629255773">+91 96292 55773</a>
+            <br><br>
+            💬 <a href="https://wa.me/919629255773" target="_blank" rel="noopener">WhatsApp: +91 96292 55773</a>
+            <br><br>
+            📍 Tamil Nadu, India
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. FOOTER -->
+    <footer class="sg-footer">
+      <div class="sg-footer-content">
+        <p>© 2026 சிகரத்தலைவி Luxury Diamondfall Store. by FU-GLIDE</p>
+      </div>
+    </footer>
+
+    <!-- CART MODAL / DRAWER -->
+    <div class="sg-cart-overlay" id="sgCartOverlay" aria-hidden="true"></div>
+    <aside class="sg-cart-drawer" id="sgCartDrawer" aria-label="Shopping Cart">
+      <div class="sg-cart-header">
+        <h3>Shopping Cart</h3>
+        <button class="sg-cart-close" id="sgCartClose" aria-label="Close cart">&times;</button>
+      </div>
+
+      <div class="sg-cart-body">
+        <div class="sg-cart-items" id="sgCartItems">
+          <div class="sg-cart-empty">Your luxury cart is currently empty.</div>
+        </div>
+
+        <form class="sg-checkout-form" id="sgCheckoutForm" onsubmit="return false;">
+          <h4>Delivery & Customer Info</h4>
+          <div class="sg-form-group">
+            <label for="sgCustomerName">Customer Name *</label>
+            <input type="text" id="sgCustomerName" placeholder="Enter your full name" required autocomplete="name" />
+          </div>
+          <div class="sg-form-group">
+            <label for="sgCustomerPhone">Phone Number *</label>
+            <input type="tel" id="sgCustomerPhone" placeholder="Enter 10-digit mobile number" required autocomplete="tel" />
+          </div>
+          <div class="sg-form-group">
+            <label for="sgCustomerAddress">Delivery Address *</label>
+            <textarea id="sgCustomerAddress" rows="3" placeholder="Enter street, city, pincode" required autocomplete="street-address"></textarea>
+          </div>
+        </form>
+      </div>
+
+      <div class="sg-cart-footer">
+        <div class="sg-cart-total-row">
+          <span>Total:</span>
+          <strong id="sgCartTotalAmount">₹0</strong>
+        </div>
+        <button class="sg-buy-btn" id="sgWhatsappOrderBtn" type="button">Order via WhatsApp & Checkout ↗</button>
+      </div>
+    </aside>
+
+    <!-- THANK YOU / ORDER CONFIRMATION POPUP MODAL -->
+    <div class="sg-popup-overlay" id="sgPopupOverlay" aria-hidden="true">
+      <div class="sg-popup-modal" role="dialog" aria-modal="true" aria-labelledby="sgPopupTitle">
+        <button class="sg-popup-close" id="sgPopupClose" aria-label="Close confirmation">&times;</button>
+        <div class="sg-popup-icon">✓</div>
+        <h3 id="sgPopupTitle" class="sg-popup-title">நன்றி! Order Placed Successfully</h3>
+        <p class="sg-popup-subtitle">Thank you for ordering with <strong>சிகரத்தலைவி Luxury Store</strong></p>
+        
+        <div class="sg-popup-order-id" id="sgPopupOrderId">Order ID: #SGT-000000</div>
+
+        <div class="sg-popup-details">
+          <div class="sg-popup-section">
+            <h4>Order Summary & Customer Details</h4>
+            <p><strong>Order Date & Time:</strong> <span id="sgPopupDateTime">-</span></p>
+            <p><strong>Customer Name:</strong> <span id="sgPopupName">-</span></p>
+            <p><strong>Phone Number:</strong> <span id="sgPopupPhone">-</span></p>
+            <p><strong>Delivery Address:</strong> <span id="sgPopupAddress">-</span></p>
+          </div>
+
+          <div class="sg-popup-section">
+            <h4>Ordered Items</h4>
+            <div class="sg-popup-items-list" id="sgPopupItemsList"></div>
+            <div class="sg-popup-total-row">
+              <span>Grand Total:</span>
+              <strong id="sgPopupTotal">₹0</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="sg-popup-thanks-note">
+          <p>🌟 <strong>Thank you for your order!</strong> Your order has been registered and forwarded to our WhatsApp support team . Your items will be carefully packed and delivered to your address across Tamil Nadu.</p>
+        </div>
+
+        <button class="sg-buy-btn sg-popup-btn" id="sgPopupDoneBtn" type="button">Continue Shopping</button>
+      </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="sg-toast" id="sgToast" role="status" aria-live="polite"></div>
+
+  </main>
+
+  <!-- =========================================================
+       SCROLL FRAME SCRUBBING SCRIPT (Untouched)
+       ========================================================= -->
+  <script>
+    /* =========================================================
+       SCROLL FRAME SCRUBBING
+       Scroll progress through the tall wrapper maps to a frame
+       in the shop-tour-frames image sequence.
+       ========================================================= */
+    (() => {
+      const track = document.getElementById('heroTrack');
+      const sticky = document.getElementById('heroSticky');
+      const canvas = document.getElementById('shopFrames');
+      const context = canvas.getContext('2d');
+      const loader = document.getElementById('frameLoader');
+      const errorBox = document.getElementById('frameError');
+      const progressFill = document.getElementById('progressFill');
+      const scrollCue = document.getElementById('scrollCue');
+
+      const frameCount = 240;
+      const frames = new Array(frameCount);
+      let targetFrame = 0;
+      let rafId = 0;
+      let hasScrolled = false;
+
+      function clamp(value, min, max) {
+        return Math.min(max, Math.max(min, value));
+      }
+
+      function drawFrame(frameIndex) {
+        const image = frames[frameIndex];
+        if (!image || !image.complete || !image.naturalWidth) return;
+
+        const pixelRatio = window.devicePixelRatio || 1;
+        const canvasWidth = Math.round(canvas.clientWidth * pixelRatio);
+        const canvasHeight = Math.round(canvas.clientHeight * pixelRatio);
+        if (canvas.width !== canvasWidth || canvas.height !== canvasHeight) {
+          canvas.width = canvasWidth;
+          canvas.height = canvasHeight;
+        }
+
+        const scale = Math.max(canvasWidth / image.naturalWidth, canvasHeight / image.naturalHeight);
+        const drawWidth = image.naturalWidth * scale;
+        const drawHeight = image.naturalHeight * scale;
+        context.clearRect(0, 0, canvasWidth, canvasHeight);
+        context.drawImage(image, (canvasWidth - drawWidth) / 2, (canvasHeight - drawHeight) / 2, drawWidth, drawHeight);
+      }
+
+      function getScrollProgress() {
+        const rect = track.getBoundingClientRect();
+        const scrollableDistance = Math.max(1, track.offsetHeight - sticky.clientHeight);
+        return clamp(-rect.top / scrollableDistance, 0, 1);
+      }
+
+      function updateTargetFromScroll() {
+        if (rafId) return;
+        rafId = requestAnimationFrame(renderFrame);
+      }
+
+      function renderFrame() {
+        rafId = 0;
+        const progress = getScrollProgress();
+        targetFrame = Math.round(progress * (frameCount - 1));
+        progressFill.style.transform = `scaleX(${progress})`;
+
+        if (!hasScrolled && (window.scrollY > 5 || progress > 0.002)) {
+          hasScrolled = true;
+          scrollCue.classList.add('is-hidden');
+        }
+
+        drawFrame(targetFrame);
+      }
+
+      function loadFrame(index) {
+        const image = new Image();
+        frames[index] = image;
+        image.onload = () => {
+          if (index === 0) {
+            drawFrame(targetFrame);
+            sticky.classList.add('is-ready');
+            loader.classList.add('is-hidden');
+            updateTargetFromScroll();
+          } else if (index === targetFrame) {
+            drawFrame(index);
+          }
+        };
+        image.onerror = () => {
+          if (index === 0) {
+            loader.classList.add('is-hidden');
+            sticky.classList.add('has-error');
+            errorBox.style.display = 'block';
+          }
+        };
+        image.src = `./shop-tour-frames/frame_${String(index + 1).padStart(4, '0')}.jpg`;
+      }
+
+      for (let index = 0; index < frameCount; index += 1) loadFrame(index);
+
+      window.addEventListener('scroll', updateTargetFromScroll, { passive: true });
+      window.addEventListener('resize', () => {
+        drawFrame(targetFrame);
+        updateTargetFromScroll();
+      }, { passive: true });
+
+      // If the browser restores this page at a previous scroll position.
+      window.addEventListener('pageshow', updateTargetFromScroll);
+
+      /* Keep the progress bar accurate if the user scrolls before frames load. */
+      window.addEventListener('orientationchange', () => setTimeout(updateTargetFromScroll, 150));
+    })();
+  </script>
+
+  <!-- Luxury Diamondfall Store Scoped Logic -->
+  <script src="site.js"></script>
+
+</body>
+</html>
