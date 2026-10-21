@@ -589,92 +589,129 @@
    ========================================================= */
 .sg-product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
   max-width: 1240px;
   margin: 0 auto;
+  align-items: stretch;
 }
 
 .sg-card {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 26px;
+  background: rgba(22, 11, 5, 0.7);
+  border-radius: 14px;
   overflow: hidden;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 215, 0, 0.14);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 215, 0, 0.16);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .sg-card:hover {
-  transform: translateY(-12px);
+  transform: translateY(-4px);
   border-color: rgba(255, 215, 0, 0.4);
-  box-shadow: 0 0 35px rgba(255, 215, 0, 0.22), 0 0 70px rgba(180, 83, 9, 0.18);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.16);
 }
 
 .sg-card-img-wrap {
   width: 100%;
-  height: 270px;
+  height: 180px;
   overflow: hidden;
   position: relative;
-  background: rgba(0, 0, 0, 0.35);
+  background: linear-gradient(180deg, rgba(35, 18, 8, 0.6) 0%, rgba(14, 7, 3, 0.85) 100%);
+  border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
 }
 
 .sg-card-img-wrap img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
+  object-fit: contain;
+  object-position: center;
+  transition: transform 0.35s ease;
   display: block;
+  border-radius: 8px;
 }
 
 .sg-card:hover .sg-card-img-wrap img {
-  transform: scale(1.08);
+  transform: scale(1.05);
 }
 
 .sg-card-content {
-  padding: 24px;
+  padding: 14px 14px 16px;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
 .sg-card-content h3 {
-  font-size: 1.05rem;
+  font-size: 0.88rem;
   font-weight: 700;
-  margin: 0 0 10px 0;
+  margin: 0 0 6px 0;
   color: #ffffff;
-  min-height: 48px;
-  line-height: 1.4;
+  line-height: 1.3;
+  height: 2.6em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
 }
 
 .sg-price {
-  font-size: 1.35rem;
+  font-size: 1.18rem;
   font-weight: 800;
   color: #ffd700;
-  margin: 0 0 18px 0;
+  margin: 0 0 12px 0;
+  line-height: 1.2;
+  display: flex;
+  align-items: baseline;
+  letter-spacing: 0.2px;
 }
 
 .sg-buy-btn {
   width: 100%;
   margin-top: auto;
-  padding: 13px 20px;
+  padding: 12px 20px;
   border: none;
-  border-radius: 50px;
-  background: linear-gradient(to right, #fff8dc, #ffd700, #b45309);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #fff2b2 0%, #ffd700 45%, #b45309 100%);
   color: #120904;
   font-family: 'Poppins', sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 800;
+  letter-spacing: 0.3px;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sg-card .sg-buy-btn {
+  padding: 9px 12px;
+  font-size: 0.82rem;
+  border-radius: 10px;
+  height: 36px;
 }
 
 .sg-buy-btn:hover {
-  transform: scale(1.04);
-  box-shadow: 0 0 30px rgba(255, 215, 0, 0.45);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.45);
+  filter: brightness(1.06);
+}
+
+.sg-buy-btn:active {
+  transform: translateY(0);
 }
 
 /* =========================================================
@@ -1190,17 +1227,57 @@
 /* =========================================================
    RESPONSIVE MEDIA QUERIES
    ========================================================= */
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .sg-product-grid {
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
   }
+}
+
+@media (max-width: 900px) {
   .sg-vm-grid {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 768px) {
+  #site section {
+    padding: 45px 3%;
+  }
+  .sg-section-title {
+    font-size: clamp(26px, 5.5vw, 34px);
+    margin: 0 0 22px 0;
+  }
+  .sg-product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .sg-card {
+    border-radius: 12px;
+  }
+  .sg-card-img-wrap {
+    height: 135px;
+    padding: 6px;
+  }
+  .sg-card-content {
+    padding: 10px 12px 12px;
+  }
+  .sg-card-content h3 {
+    font-size: 0.82rem;
+    height: 2.5em;
+    margin-bottom: 4px;
+    line-height: 1.25;
+  }
+  .sg-price {
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+  }
+  .sg-card .sg-buy-btn {
+    padding: 7px 10px;
+    font-size: 0.78rem;
+    height: 32px;
+    border-radius: 8px;
+  }
   .sg-hamburger {
     display: flex;
   }
@@ -1233,15 +1310,70 @@
 }
 
 @media (max-width: 480px) {
+  #site section {
+    padding: 30px 10px;
+  }
+  .sg-section-title {
+    font-size: 23px;
+    margin: 0 0 16px 0;
+  }
   .sg-product-grid {
-    grid-template-columns: 1fr;
-    gap: 22px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 9px;
+  }
+  .sg-card {
+    border-radius: 10px;
   }
   .sg-card-img-wrap {
-    height: 240px;
+    height: 110px;
+    padding: 5px;
+  }
+  .sg-card-content {
+    padding: 7px 8px 9px;
+  }
+  .sg-card-content h3 {
+    font-size: 0.74rem;
+    height: 2.5em;
+    margin-bottom: 3px;
+    line-height: 1.25;
+  }
+  .sg-price {
+    font-size: 0.92rem;
+    margin-bottom: 6px;
+  }
+  .sg-card .sg-buy-btn {
+    padding: 5px 6px;
+    font-size: 0.72rem;
+    height: 29px;
+    border-radius: 7px;
+    font-weight: 700;
   }
   .sg-hero-btn {
     width: 100%;
     padding: 15px 24px;
+  }
+}
+
+@media (max-width: 360px) {
+  .sg-product-grid {
+    gap: 7px;
+  }
+  .sg-card-img-wrap {
+    height: 95px;
+  }
+  .sg-card-content {
+    padding: 6px 6px 8px;
+  }
+  .sg-card-content h3 {
+    font-size: 0.68rem;
+  }
+  .sg-price {
+    font-size: 0.86rem;
+    margin-bottom: 4px;
+  }
+  .sg-card .sg-buy-btn {
+    height: 27px;
+    font-size: 0.68rem;
+    padding: 4px;
   }
 }

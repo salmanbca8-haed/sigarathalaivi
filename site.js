@@ -164,14 +164,15 @@
   }
 
   function addToCart(productName, productImage, price = 0) {
+    if (!productName || productName === 'Product') return;
     const existing = cart.find((i) => i.name === productName);
     if (existing) {
       existing.quantity += 1;
     } else {
       cart.push({
         name: productName,
-        image: productImage,
-        price: price,
+        image: productImage || './image/image.png',
+        price: Number(price) || 0,
         quantity: 1
       });
     }
@@ -179,18 +180,22 @@
     showToast(`✓ ${productName} added to cart (₹${price})!`);
   }
 
-  // Attach Add to Cart buttons
-  document.querySelectorAll('.sg-buy-btn').forEach((button) => {
+  // Attach Add to Cart buttons strictly to product cards
+  document.querySelectorAll('.sg-card .sg-buy-btn').forEach((button) => {
     button.addEventListener('click', (e) => {
-      const card = e.target.closest('.sg-card');
-      const name = e.target.getAttribute('data-name') || (card ? card.querySelector('h3').textContent.trim() : 'Product');
-      const img = card ? card.querySelector('img').getAttribute('src') : './image/image.png';
-      const priceAttr = e.target.getAttribute('data-price');
+      const card = button.closest('.sg-card');
+      if (!card) return;
+      const name = button.getAttribute('data-name') || (card.querySelector('h3') ? card.querySelector('h3').textContent.trim() : '');
+      if (!name) return;
+      const imgEl = card.querySelector('img');
+      const img = imgEl ? imgEl.getAttribute('src') : './image/image.png';
+      const priceAttr = button.getAttribute('data-price');
       let price = 0;
       if (priceAttr) {
         price = Number(priceAttr);
-      } else if (card) {
-        const priceText = card.querySelector('.sg-price').textContent;
+      } else {
+        const priceEl = card.querySelector('.sg-price');
+        const priceText = priceEl ? priceEl.textContent : '';
         price = Number(priceText.replace(/[^\d]/g, '')) || 0;
       }
       addToCart(name, img, price);
@@ -310,10 +315,20 @@
         return;
       }
 
+      // Filter to ensure only valid products are processed
+      const validItems = cart.filter(
+        (item) => item && typeof item.name === 'string' && item.name.trim() !== '' && item.name !== 'Product' && item.quantity > 0
+      );
+
+      if (validItems.length === 0) {
+        showToast('Please add products to your cart first.');
+        return;
+      }
+
       // Generate unique luxury Order ID (e.g. SGT-582914)
       const orderNumber = Math.floor(100000 + Math.random() * 900000);
       const orderId = `SGT-${orderNumber}`;
-      const grandTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      const grandTotal = validItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
       // Format Date & Time (e.g. "29 Sep 2026, 09:35 PM")
       const now = new Date();
@@ -337,7 +352,7 @@
       waMessage += `━━━━━━━━━━━━━━━━━━━━━\n`;
       waMessage += `📦 *ORDERED ITEMS:*\n`;
 
-      cart.forEach((item, index) => {
+      validItems.forEach((item, index) => {
         const subtotal = item.price * item.quantity;
         waMessage += `${index + 1}. ${item.name}\n   Qty: ${item.quantity} × ₹${item.price} = ₹${subtotal}\n`;
       });
@@ -357,7 +372,7 @@
       closeCart();
 
       // 3. Show Order Confirmation Thank You Popup Modal
-      openPopup(orderId, orderDateTime, name, phone, address, [...cart], grandTotal);
+      openPopup(orderId, orderDateTime, name, phone, address, [...validItems], grandTotal);
     });
   }
 
